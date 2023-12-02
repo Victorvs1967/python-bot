@@ -16,7 +16,7 @@ def welcome(message):
 def save_username(message):
     chat_id = message.chat.id
     name = message.text
-    users[chat_id] = name
+    users[chat_id]['name'] = name
     bot.send_message(chat_id, f'Hi, {name}. Enter your surname.')
     bot.register_next_step_handler(message, save_surname)
 
@@ -28,10 +28,10 @@ def save_surname(message):
 
 @bot.message_handler(commands=['who_i'])
 def who_i(message):
-    chat_id = message.chat.idadd
+    chat_id = message.chat.id
     name = users[chat_id]['name']
-    surname = users[chat_id['surname']]
-    bot.send_message(chat_id, f'You {name} {surname}')
+    surname = users[chat_id]['surname']
+    bot.send_message(chat_id, f"You'r {name} {surname}")
 
 
 if __name__ == '__main__':
