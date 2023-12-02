@@ -28,7 +28,7 @@ def save_surname(message):
 
 @bot.message_handler(commands=['who_i'])
 def who_i(message):
-    chat_id = message.chat.id
+    chat_id = message.chat.idadd
     name = users[chat_id]['name']
     surname = users[chat_id['surname']]
     bot.send_message(chat_id, f'You {name} {surname}')
