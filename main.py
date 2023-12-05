@@ -12,6 +12,9 @@ def welcome(message):
     button_save = telebot.types.InlineKeyboardButton(text='Write to support.')
     keyboard.add(button_save)
     bot.send_message(chat_id, 'Hi! Welcome to the responser bot!', reply_markup=keyboard)
+    with open('alejandro.jpg', 'rb') as file:
+        photo = file.read()
+    bot.send_photo(chat_id, photo)
 
 @bot.callback_query_handler(func=lambda call: call.data == 'save_data')
 def save_btn(call):
@@ -48,7 +51,8 @@ def save_btn(call):
     message = call.message
     chat_id = message.chat.id
     message_id = message.message.id
-    bot.edit_message_text(chat_id=chat_id, message_id=message_id, text='Data saved.')
+    bot.answer_callback_query(call.id, text='Data saved.')
+    bot.delete_message(chat_id=chat_id, message_id=message_id)
 
 @bot.callback_query_handler(func=lambda call: call.data == 'change_data')
 def save_btn(call):
