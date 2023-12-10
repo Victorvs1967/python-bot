@@ -4,6 +4,7 @@ from config import TOKEN
 
 bot = telebot.TeleBot(TOKEN)
 users = {}
+administrators = (335028903,)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
@@ -50,9 +51,19 @@ def save_surname(message):
 def save_btn(call):
     message = call.message
     chat_id = message.chat.id
-    message_id = message.message.id
+    message_id = message.message_id
     bot.answer_callback_query(call.id, text='Data saved.')
     bot.delete_message(chat_id=chat_id, message_id=message_id)
+    bot.send_message(chat_id, 'Enter answer test.')
+    bot.register_next_step_handler(message, send_feedback_administrators)
+
+def send_feedback_administrators(message):
+    feedback = message.text
+    user = users[message.chat.id]
+    name = user['name']
+    surname = user['surname']
+    for admin_chat_id in administrators:
+        bot.send_message(admin_chat_id, f'{surname} {name} send answer: {feedback}')
 
 @bot.callback_query_handler(func=lambda call: call.data == 'change_data')
 def save_btn(call):
